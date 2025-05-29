@@ -1,5 +1,5 @@
 # ใช้ Node Alpine เพื่อขนาดเล็ก
-FROM node:16-alpine
+FROM node:18-alpine
 
 WORKDIR /app
 

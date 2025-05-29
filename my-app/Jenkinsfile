@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/poommin2543/jenkinTestnextJs.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                dir('my-app') {
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
+            }
+        }
+        stage('Docker Build & Run') {
+            steps {
+                dir('my-app') {
+                    sh 'docker build -t nextjs-app .'
+                    sh 'docker stop nextjs-container || true'
+                    sh 'docker rm nextjs-container || true'
+                    sh 'docker run -d --name nextjs-container -p 3000:3000 nextjs-app'
+                }
+            }
+        }
+    }
+}
